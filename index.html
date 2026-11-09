@@ -118,9 +118,19 @@ strong,b{color:var(--ink-2); font-weight:700}
 
 /* ── header ───────────────────────────────────────────────── */
 .topbar{position:sticky; top:0; z-index:60; background:#0B0710; border-bottom:1px solid rgba(255,255,255,.1)}
-.topbar .inner{max-width:var(--maxw); margin:0 auto; padding:11px 20px; display:flex; align-items:center; gap:16px}
-.topbar img{height:26px; width:auto; flex:none}
-.topbar .tag{font-family:var(--mono); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:#8F85A8; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.topbar .inner{max-width:var(--maxw); margin:0 auto; padding:13px 20px; display:flex; align-items:center; gap:14px}
+.topbar img{height:34px; width:auto; flex:none}
+.topbar .tag{
+  font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase;
+  color:#9A90B3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  padding-left:14px; border-left:1px solid rgba(255,255,255,.18);
+}
+@media (max-width:560px){
+  .topbar img{height:28px}
+  .topbar .tag{font-size:.6rem; letter-spacing:.1em; padding-left:11px}
+  /* drop the product name rather than let the whole label ellipsis away */
+  .topbar .tag .long{display:none}
+}
 .themer{margin-left:auto; flex:none; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:#E9E5F5; width:34px; height:34px; border-radius:9px; cursor:pointer; font-size:15px; line-height:1; display:grid; place-items:center}
 .themer:hover{background:rgba(255,255,255,.16)}
 
@@ -153,20 +163,43 @@ strong,b{color:var(--ink-2); font-weight:700}
   content:""; position:absolute; inset:0; z-index:-1;
   background:linear-gradient(104deg, rgba(11,7,16,.93) 0%, rgba(11,7,16,.80) 38%, rgba(11,7,16,.42) 68%, rgba(11,7,16,.14) 100%);
 }
-.hero .wrap{position:relative; z-index:2; padding-top:clamp(46px,8vw,86px); padding-bottom:clamp(40px,7vw,74px)}
-.hero .lab{color:rgba(255,255,255,.72)}
-.hero h1{color:#fff; margin:16px 0 18px; max-width:15ch}
-.hero .sub{font-size:clamp(1.02rem,2.1vw,1.28rem); color:rgba(255,255,255,.90); max-width:46ch; margin:0 0 30px; line-height:1.5}
-/* the pouch is a cutout, so it floats on the foil instead of sitting in a
-   white JPEG box. z-index 1 keeps it above the darkening overlay. */
-/* sized off the hero's height, not its width, so the pouch never clips at
-   the top or loses the powder pile at the bottom */
-.hero .shot{
-  position:absolute; right:4%; bottom:0; height:84%; width:auto; max-width:38%;
-  object-fit:contain; object-position:bottom; z-index:1;
-  filter:drop-shadow(0 26px 54px rgba(11,7,16,.55));
+.hero .wrap{position:relative; z-index:2; padding-top:clamp(34px,6vw,66px); padding-bottom:clamp(36px,6vw,66px)}
+.hero .lab{color:rgba(255,255,255,.76)}
+.hero h1{color:#fff; margin:14px 0 16px; max-width:15ch}
+.hero .sub{font-size:clamp(1.02rem,2.1vw,1.26rem); color:rgba(255,255,255,.90); max-width:44ch; margin:0 0 26px; line-height:1.5}
+
+/* text and product sit side by side on desktop and stack on a phone, so the
+   pouch stays visible on mobile — it used to be display:none under 860px */
+.heroGrid{display:grid; gap:clamp(26px,4vw,44px); align-items:center}
+@media (min-width:900px){ .heroGrid{grid-template-columns:minmax(0,1fr) 330px} }
+
+.wordmark{width:clamp(196px,30vw,290px); height:auto; margin-bottom:20px}
+
+/* the product sits in a glass tile instead of a cutout floating on the foil */
+.bubble{
+  position:relative; aspect-ratio:1; border-radius:30px; overflow:hidden;
+  background:rgba(255,255,255,.96); margin:0; justify-self:center;
+  width:min(100%,330px);
+  box-shadow:0 30px 70px -22px rgba(11,7,16,.72);
 }
-@media (max-width:860px){ .hero .shot{display:none} }
+.bubble::before{
+  content:""; position:absolute; inset:0; border-radius:inherit; padding:2px; z-index:2;
+  background:linear-gradient(140deg,var(--holo-cyan),var(--holo-lav) 36%,var(--holo-pink) 68%,var(--holo-peach));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite:exclude; pointer-events:none;
+}
+/* the source is square with the pouch centred, so contain shows all of it —
+   cover plus a scale was shaving the zip seal and the powder pile */
+.bubble img{width:100%; height:100%; object-fit:contain}
+.bubble figcaption{
+  position:absolute; left:0; right:0; bottom:0; z-index:3; text-align:center;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.13em; text-transform:uppercase;
+  color:#fff; padding:30px 14px 13px;
+  background:linear-gradient(to top, rgba(11,7,16,.86), rgba(11,7,16,.55) 45%, transparent);
+}
+@media (max-width:899px){ .bubble{width:min(76%,286px)} }
 
 .facts{display:flex; flex-wrap:wrap; gap:9px}
 .fact{
@@ -362,7 +395,7 @@ footer .fine{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; co
 <header class="topbar">
   <div class="inner">
     <img src="img/logo.png" alt="Everyday Dose">
-    <span class="tag">Coffee+ Mild · Creator Brief</span>
+    <span class="tag"><span class="long">Coffee+ Mild · </span>Creator Brief</span>
     <button class="themer" id="themer" type="button" aria-label="Switch colour theme">◐</button>
   </div>
 </header>
@@ -387,16 +420,24 @@ footer .fine{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; co
 
 <!-- ── hero ───────────────────────────────────────────────── -->
 <div class="hero" id="hero">
-  <img class="shot" src="img/pack-cutout.png" alt="Everyday Dose Coffee+ Mild Roast pouch">
   <div class="wrap">
-    <span class="lab">Everyday Dose · Coffee+ Mild Roast</span>
-    <h1>Creator Brief</h1>
-    <p class="sub">Everything you need to make a video: what to say, what not to say, how to shoot it, and scripts to steal from.</p>
-    <div class="facts">
-      <span class="fact"><b>45mg</b> caffeine</span>
-      <span class="fact"><b>150mg</b> L-theanine</span>
-      <span class="fact"><b>4.8★</b> from 100,000+ reviews</span>
-      <span class="fact"><b>30 sec</b> to make</span>
+    <div class="heroGrid">
+      <div>
+        <img class="wordmark" src="img/logo-white.png" alt="Everyday Dose">
+        <span class="lab">Coffee+ Mild Roast</span>
+        <h1>Creator Brief</h1>
+        <p class="sub">Everything you need to make a video: what to say, what not to say, how to shoot it, and scripts to steal from.</p>
+        <div class="facts">
+          <span class="fact"><b>45mg</b> caffeine</span>
+          <span class="fact"><b>150mg</b> L-theanine</span>
+          <span class="fact"><b>4.8★</b> from 100,000+ reviews</span>
+          <span class="fact"><b>30 sec</b> to make</span>
+        </div>
+      </div>
+      <figure class="bubble">
+        <img src="img/pack-mild.jpeg" alt="Everyday Dose Coffee+ Mild Roast pouch">
+        <figcaption>Mild Roast · 45mg caffeine</figcaption>
+      </figure>
     </div>
   </div>
 </div>
