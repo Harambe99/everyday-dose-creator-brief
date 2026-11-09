@@ -143,16 +143,20 @@ strong,b{color:var(--ink-2); font-weight:700}
 }
 .hero::after{
   content:""; position:absolute; inset:0; z-index:-1;
-  background:linear-gradient(104deg, rgba(11,7,16,.90) 0%, rgba(11,7,16,.70) 44%, rgba(11,7,16,.18) 82%, rgba(11,7,16,.05) 100%);
+  background:linear-gradient(104deg, rgba(11,7,16,.93) 0%, rgba(11,7,16,.80) 38%, rgba(11,7,16,.42) 68%, rgba(11,7,16,.14) 100%);
 }
-.hero .wrap{padding-top:clamp(46px,8vw,86px); padding-bottom:clamp(40px,7vw,74px)}
+.hero .wrap{position:relative; z-index:2; padding-top:clamp(46px,8vw,86px); padding-bottom:clamp(40px,7vw,74px)}
 .hero .lab{color:rgba(255,255,255,.72)}
 .hero h1{color:#fff; margin:16px 0 18px; max-width:15ch}
 .hero .sub{font-size:clamp(1.02rem,2.1vw,1.28rem); color:rgba(255,255,255,.90); max-width:46ch; margin:0 0 30px; line-height:1.5}
+/* the pouch is a cutout, so it floats on the foil instead of sitting in a
+   white JPEG box. z-index 1 keeps it above the darkening overlay. */
+/* sized off the hero's height, not its width, so the pouch never clips at
+   the top or loses the powder pile at the bottom */
 .hero .shot{
-  position:absolute; right:-2%; bottom:-6%; width:min(40%,420px); z-index:-1;
-  filter:drop-shadow(0 30px 60px rgba(0,0,0,.5));
-  mix-blend-mode:normal; opacity:.98;
+  position:absolute; right:4%; bottom:0; height:84%; width:auto; max-width:38%;
+  object-fit:contain; object-position:bottom; z-index:1;
+  filter:drop-shadow(0 26px 54px rgba(11,7,16,.55));
 }
 @media (max-width:860px){ .hero .shot{display:none} }
 
@@ -246,7 +250,9 @@ section.band.alt::before{content:""; position:absolute; inset:0 -30vw; backgroun
 .col li{display:grid; grid-template-columns:16px minmax(0,1fr); gap:11px; align-items:start; font-size:.97rem; line-height:1.48; color:var(--ink-2)}
 .col li::before{content:""; width:7px; height:7px; border-radius:2px; margin-top:.52em; margin-left:4px}
 .col.go li::before{background:var(--go)} .col.no li::before{background:var(--no)}
-.col li em{font-style:normal; color:var(--muted); font-size:.88rem; display:block; margin-top:2px}
+/* the bullet, the text node and this <em> are three grid items, so the em
+   must be pinned to the text column or it drops into the 16px bullet one */
+.col li em{grid-column:2; font-style:normal; color:var(--muted); font-size:.88rem; display:block; margin-top:3px}
 
 /* ── formats ──────────────────────────────────────────────── */
 .fmt{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:20px; box-shadow:var(--shadow)}
@@ -281,7 +287,7 @@ section.band.alt::before{content:""; position:absolute; inset:0 -30vw; backgroun
 .script .meta{font-family:var(--mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); width:100%}
 .script .lines{padding:20px 22px; display:grid; gap:12px}
 .script .lines p{margin:0; font-size:1.04rem; line-height:1.52; color:var(--ink-2)}
-.script .lines p.hook{font-family:var(--display); font-weight:800; font-size:clamp(1.1rem,2.1vw,1.3rem); line-height:1.25; color:var(--ink)}
+.script .lines p.openline{font-family:var(--display); font-weight:800; font-size:clamp(1.1rem,2.1vw,1.3rem); line-height:1.25; color:var(--ink)}
 .cta-chip{
   display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:.74rem;
   letter-spacing:.1em; text-transform:uppercase; color:var(--violet);
@@ -373,7 +379,7 @@ footer .fine{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; co
 
 <!-- ── hero ───────────────────────────────────────────────── -->
 <div class="hero" id="hero">
-  <img class="shot" src="img/pack-mild.jpeg" alt="Everyday Dose Coffee+ Mild Roast pouch">
+  <img class="shot" src="img/pack-cutout.png" alt="Everyday Dose Coffee+ Mild Roast pouch">
   <div class="wrap">
     <span class="lab">Everyday Dose · Coffee+ Mild Roast</span>
     <h1>Creator Brief</h1>
@@ -616,7 +622,7 @@ footer .fine{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; co
     <article class="script">
       <header><h3>📝 1 · The second cup</h3><button class="copy" type="button">Copy script</button><span class="meta">Desk at 1pm · about 45 seconds</span></header>
       <div class="lines">
-        <p class="hook">If you're the girl who needs a second coffee at one o'clock, that's the cup that's working against you!</p>
+        <p class="openline">If you're the girl who needs a second coffee at one o'clock, that's the cup that's working against you!</p>
         <p>Coffee raises cortisol. That's your stress hormone.</p>
         <p>Researchers at the University of Oklahoma tested this on daily coffee drinkers.</p>
         <p>Their bodies got used to the morning cup. But the afternoon cup? It still pushed their cortisol up.</p>
@@ -631,7 +637,7 @@ footer .fine{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; co
     <article class="script">
       <header><h3>📝 2 · Heart racing after one coffee</h3><button class="copy" type="button">Copy script</button><span class="meta">Talking head in the kitchen, making the coffee · about 48 seconds</span></header>
       <div class="lines">
-        <p class="hook">To every woman whose heart races after one coffee, you're not crazy, and you don't have to quit!</p>
+        <p class="openline">To every woman whose heart races after one coffee, you're not crazy, and you don't have to quit!</p>
         <p>I used to drink one cup and feel my heart in my throat by nine a.m.</p>
         <p>My hands would shake. I'd snap at everyone. Then by lunch I had nothing left.</p>
         <p>A normal cup of coffee has about ninety five milligrams of caffeine.</p>
@@ -647,7 +653,7 @@ footer .fine{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; co
     <article class="script">
       <header><h3>📝 3 · The study in my mug</h3><button class="copy" type="button">Copy script</button><span class="meta">Green screen over the study, then the bag · about 41 seconds</span></header>
       <div class="lines">
-        <p class="hook">Scientists already tested the coffee I'm drinking, they just didn't put it in a bag.</p>
+        <p class="openline">Scientists already tested the coffee I'm drinking, they just didn't put it in a bag.</p>
         <p>This is a study from two thousand eight.</p>
         <p>They gave people fifty milligrams of caffeine with a hundred milligrams of L-theanine.</p>
         <p>L-theanine is an amino acid that's in tea, and it's been studied for calm focus.</p>
@@ -662,7 +668,7 @@ footer .fine{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; co
     <article class="script">
       <header><h3>📝 4 · Don't quit coffee</h3><button class="copy" type="button">Copy script</button><span class="meta">Talking head in the car, coffee in the cup holder · about 42 seconds</span></header>
       <div class="lines">
-        <p class="hook">Everyone on here telling women with high cortisol to quit coffee is setting you up to fail!</p>
+        <p class="openline">Everyone on here telling women with high cortisol to quit coffee is setting you up to fail!</p>
         <p>You're not quitting coffee. I tried. I lasted four days and I was miserable.</p>
         <p>Here's what they get right. Coffee does raise cortisol.</p>
         <p>And a normal cup has about ninety five milligrams of caffeine.</p>
@@ -677,7 +683,7 @@ footer .fine{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; co
     <article class="script">
       <header><h3>📝 5 · Low cortisol girl</h3><button class="copy" type="button">Copy script</button><span class="meta">The list, quick cuts of your day · about 36 seconds</span></header>
       <div class="lines">
-        <p class="hook">Things I do to keep my cortisol low, and yes, I still drink coffee.</p>
+        <p class="openline">Things I do to keep my cortisol low, and yes, I still drink coffee.</p>
         <p>One. I walk outside before I touch my phone.</p>
         <p>Two. I don't check my work emails in bed. Ever.</p>
         <p>Three. My coffee has half the caffeine. It's Everyday Dose Mild, with forty five milligrams and L-theanine for calm focus.</p>
@@ -692,7 +698,7 @@ footer .fine{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; co
     <article class="script">
       <header><h3>📝 6 · Read the reviews</h3><button class="copy" type="button">Copy script</button><span class="meta">Green screen over the Trustpilot reviews · about 40 seconds</span></header>
       <div class="lines">
-        <p class="hook">If your belly hates coffee but you'd never give up your morning cup, read these reviews with me.</p>
+        <p class="openline">If your belly hates coffee but you'd never give up your morning cup, read these reviews with me.</p>
         <p>"Coffee makes me either sleepy or super jittery." That's Dee.</p>
         <p>"If your belly hates the acidity of coffee but you love the morning ritual, you have to try Everyday Dose!" That's J-me.</p>
         <p>"This is the first mushroom coffee I've tried that didn't taste like dirt!" That's Kelli, and honestly, same.</p>
